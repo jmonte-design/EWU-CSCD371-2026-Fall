@@ -16,8 +16,7 @@ public abstract record Person(FullName Name, EmailAddress Email, PhoneNumber? Ph
     // Short description of what this person is, used in GetContactInfo.
     protected abstract string Role { get; }
 
-    public string GetContactInfo() =>
-        $"{Name} ({Role}) | {Email}" + (Phone is null ? "" : $" | {Phone}");
+    public string GetContactInfo() => $"{Name} ({Role}) | {Email}" + (Phone is null ? "" : $" | {Phone}");
 
     // -----------------------------------------------------------------------
     // Equality.
@@ -40,53 +39,7 @@ public abstract record Person(FullName Name, EmailAddress Email, PhoneNumber? Ph
         && Phone == other.Phone;
 
     // Must agree with Equals: equal contacts => equal hash codes. Id is left out here too.
-    public override int GetHashCode() =>
-        HashCode.Combine(EqualityContract, Name, Email, Phone);
-}
-
-// ---------------------------------------------------------------------------
-// Student: members unique to students.
-// ---------------------------------------------------------------------------
-
-public sealed record Student(
-    FullName Name,
-    EmailAddress Email,
-    StudentId StudentId,
-    Major Major,
-    AcademicLevel Level,
-    PhoneNumber? Phone = null) : Person(Name, Email, Phone)
-{
-    public override ContactKind Kind => ContactKind.Student;
-
-    protected override string Role => $"Student, {Level} {Major}";
-
-    public bool IsUndergraduate => Level != AcademicLevel.Grad;
-}
-
-// ---------------------------------------------------------------------------
-// Employee: members unique to employees.
-// ---------------------------------------------------------------------------
-
-public sealed record Employee(
-    FullName Name,
-    EmailAddress Email,
-    EmployeeId EmployeeId,
-    Department Department,
-    EmploymentType Employment,
-    DateOnly HireDate,
-    PhoneNumber? Phone = null) : Person(Name, Email, Phone)
-{
-    public override ContactKind Kind => ContactKind.Employee;
-
-    protected override string Role => $"{Department}, {Employment}";
-
-    // `today` is a parameter (not DateTime.Now) so this is deterministic in tests.
-    public int YearsOfService(DateOnly today)
-    {
-        int years = today.Year - HireDate.Year;
-        if (today < HireDate.AddYears(years)) years--;
-        return Math.Max(0, years);
-    }
+    public override int GetHashCode() => HashCode.Combine(EqualityContract, Name, Email, Phone);
 }
 
 

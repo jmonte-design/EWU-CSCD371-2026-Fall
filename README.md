@@ -23,7 +23,7 @@ Reference **Chapters 9 - Introducing Structs and Records & Chapter 10 - Well For
 ### Equality
 
 - Two contacts with the same data are equal even though they have different `Id`s. ❌✔
-  - Records synthesize equality over every property, so decide how to keep `Id` out of it. ❌✔
+- Records synthesize equality over every property, so decide how to keep `Id` out of it. ❌✔
 - A student and an employee with otherwise identical data are **not** equal. ❌✔
 
 ### ContactBook (must use `HashSet<IContact>`)
