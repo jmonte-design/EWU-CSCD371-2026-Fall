@@ -16,7 +16,7 @@ public class ProgramCli(ContactBook book, TextReader input, TextWriter output)
     public void Run()
     
     {   
-        _output.WriteLine("Starting Contact book. Type 'help' for commands.");
+        _output.WriteLine("Starting Contact Book. Type 'help' for commands.");
         WriteHelp();
 
         while (true)
@@ -34,7 +34,7 @@ public class ProgramCli(ContactBook book, TextReader input, TextWriter output)
             }
             catch (InputCancelledException)
             {
-                _output.WriteLine("Cancelled. Nothing was changed.");
+                _output.WriteLine("Cancelled... nothing was changed.");
             }
             catch (InputClosedException)
             {
@@ -61,7 +61,7 @@ public class ProgramCli(ContactBook book, TextReader input, TextWriter output)
             case CliCommand.Remove: HandleRemove(parsed.Argument); break;
             case CliCommand.Help: WriteHelp(); break;
             default:
-                _output.WriteLine($"Unknown command '{parsed.Argument}'. Type 'help' for the list of commands.");
+                _output.WriteLine($"Unknown command '{parsed.Argument}'. Type 'help' for the list of available commands.");
                 break;
         }
     }
@@ -81,7 +81,7 @@ public class ProgramCli(ContactBook book, TextReader input, TextWriter output)
             return;
         }
 
-        _output.WriteLine($"Adding a {kind.ToString().ToLowerInvariant()}. Type 'cancel' at any prompt to stop.");
+        _output.WriteLine($"Adding a new {kind.ToString().ToLowerInvariant()}. Type 'cancel' to stop addition.");
 
         string first = Prompt("First name", s => Validate.PersonName(s, "First name"));
         string last = Prompt("Last name", s => Validate.PersonName(s, "Last name"));
@@ -105,7 +105,7 @@ public class ProgramCli(ContactBook book, TextReader input, TextWriter output)
         else
         {
             IContact? existing = _book.GetAll().FirstOrDefault(c => c.Equals(contact));
-            _output.WriteLine("Duplicate: an identical contact already exists, so nothing was added.");
+            _output.WriteLine("Duplicate: an identical contact already exists... nothing was added.");
             if (existing is not null) _output.WriteLine($"Existing: {Describe(existing)}");
         }
     }
@@ -124,7 +124,7 @@ public class ProgramCli(ContactBook book, TextReader input, TextWriter output)
             Prompt("Employee ID", s => new EmployeeId(s)),
             PromptEnum<Department>("Department"),
             PromptEnum<EmploymentType>("Employment type"),
-            Prompt("Hire date (yyyy-MM-dd)", ParseDate),
+            Prompt("Hire date (yyyy-mm-dd)", ParseDate),
             phone);
 
     // ----- list / search -----------------------------------------------------
@@ -247,9 +247,9 @@ public class ProgramCli(ContactBook book, TextReader input, TextWriter output)
         Prompt($"{label} ({EnumParser.Options<TEnum>()})", EnumParser.Parse<TEnum>);
 
     private static DateOnly ParseDate(string text) =>
-        DateOnly.TryParseExact(text, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly date)
+        DateOnly.TryParseExact(text, "yyyy-mm-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly date)
             ? date
-            : throw new ArgumentException("Use the format yyyy-MM-dd, for example 2024-09-01.");
+            : throw new ArgumentException("Use the format yyyy-mm-dd, for example 2024-09-01.");
 
     private sealed class InputCancelledException : Exception { }
 
