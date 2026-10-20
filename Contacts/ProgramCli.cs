@@ -14,8 +14,10 @@ public class ProgramCli(ContactBook book, TextReader input, TextWriter output)
     private readonly TextWriter _output = output ?? throw new ArgumentNullException(nameof(output));
 
     public void Run()
-    {
-        _output.WriteLine("Contact book. Type 'help' for commands.");
+    
+    {   
+        _output.WriteLine("Starting Contact book. Type 'help' for commands.");
+        WriteHelp();
 
         while (true)
         {
@@ -204,13 +206,13 @@ public class ProgramCli(ContactBook book, TextReader input, TextWriter output)
 
     private void WriteHelp()
     {
-        _output.WriteLine("Commands:");
+        _output.WriteLine("---Command List---");
         _output.WriteLine("  add [student|employee]   add a contact (prompts for each field)");
         _output.WriteLine("  list [student|employee]  list contacts, optionally by kind");
         _output.WriteLine("  search <text>            find by name, email, phone, ID or kind");
         _output.WriteLine("  remove <text|id>         remove the one contact matching the text");
         _output.WriteLine("  help                     show this help");
-        _output.WriteLine("  quit                     exit");
+        _output.WriteLine("  exit                    exit");
     }
 
     // ----- prompting ---------------------------------------------------------
