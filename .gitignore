@@ -351,3 +351,5 @@ MigrationBackup/
 
 # Live unit testing files.
 *.lutconfig
+.vscode/launch.json
+.vscode/tasks.json
